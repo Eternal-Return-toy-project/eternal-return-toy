@@ -19,7 +19,7 @@ android {
             useSupportLibrary = true
         }
         //API 키
-        buildConfigField("String", "ETERNAL_RETURN_API_KEY", "\"${property("ETERNAL_RETURN_API_KEY")}\"")
+//        buildConfigField("String", "ETERNAL_RETURN_API_KEY", "\"${property("ETERNAL_RETURN_API_KEY")}\"")
     }
 
     buildTypes {
