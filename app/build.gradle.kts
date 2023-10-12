@@ -12,7 +12,9 @@ val localProperties = Properties().apply {
         load(FileInputStream(localPropertiesFile))
     }
 }
-val eternalReturnApiKey = localProperties.getProperty("ETERNAL_RETURN_API_KEY") ?: ""
+val ShootingSonic = localProperties.getProperty("ShootingSonic") ?: ""
+val AbsolutePowerForce = localProperties.getProperty("AbsolutePowerForce") ?: ""
+val BlackRoseFlare = localProperties.getProperty("BlackRoseFlare") ?: ""
 
 android {
     namespace = "com.eternalreturntoy"
@@ -29,7 +31,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        buildConfigField("String", "ETERNAL_RETURN_API_KEY", "\"$eternalReturnApiKey\"")
+        buildConfigField("String", "ShootingSonic", "\"$ShootingSonic\"")
+        buildConfigField("String", "AbsolutePowerForce", "\"$AbsolutePowerForce\"")
+        buildConfigField("String", "BlackRoseFlare", "\"$BlackRoseFlare\"")
     }
 
     buildTypes {
