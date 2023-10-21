@@ -1,16 +1,32 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
+    kotlin("kapt")
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.dagger.hilt.android")
 }
+
+val localProperties = Properties().apply {
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        load(FileInputStream(localPropertiesFile))
+    }
+}
+val ShootingSonic = localProperties.getProperty("ShootingSonic") ?: ""
+val AbsolutePowerForce = localProperties.getProperty("AbsolutePowerForce") ?: ""
+val BlackRoseFlare = localProperties.getProperty("BlackRoseFlare") ?: ""
 
 android {
     namespace = "com.eternalreturntoy"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.eternalreturntoy"
         minSdk = 33
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -18,6 +34,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String", "ShootingSonic", "\"$ShootingSonic\"")
+        buildConfigField("String", "AbsolutePowerForce", "\"$AbsolutePowerForce\"")
+        buildConfigField("String", "BlackRoseFlare", "\"$BlackRoseFlare\"")
     }
 
     buildTypes {
@@ -30,22 +49,18 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
     }
 }
 
@@ -59,6 +74,22 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+
+    // Compose Navigation
+    implementation ("androidx.navigation:navigation-compose:2.5.3")
+
+    //Retrofit 의존성 추가
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0-alpha02")
+
+    // Dagger - Hilt
+    implementation("com.google.dagger:hilt-android:2.45")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0-rc01")
+
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
